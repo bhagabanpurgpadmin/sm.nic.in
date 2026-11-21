@@ -226,7 +226,7 @@ let filteredData = [];
 document.addEventListener("DOMContentLoaded", () => loadData());
 
 async function loadData() {
-    let res = await fetch("https://script.google.com/macros/s/AKfycbyzlB34iTwHptzKhk7wu7Ma0-Zq43_U_mA6kVWfxemaipm5UHb7lmxwlYFHfYHpT84/exec");
+    let res = await fetch("https://script.google.com/macros/s/AKfycbyjWq3rskacpDaTyKG3yHgBJ7IlUi-Qz3KeyshYeux68-LKwy312IC2NgcvlSkxmKZ8Ww/exec");
     originalData = await res.json();
     filteredData = [...originalData];
 
