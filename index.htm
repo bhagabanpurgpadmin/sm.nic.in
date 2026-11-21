@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Bhagabanpur Gram Panchayat | Official Portal | Malda</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Google Fonts for consistent typography -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -32,7 +31,7 @@ body {
   color: #1E2F3E;
 }
 
-/* Header with Dual Color Gradient */
+/* Header with Dual Color Gradient (Original Theme Preserved) */
 header {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-accent) 100%);
   color: white;
@@ -49,16 +48,16 @@ header {
   padding: 0.6rem 2rem;
 }
 
-/* Top Section - Logo and Right Controls in Same Line */
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 0.8rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-/* Left Section: Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -100,15 +99,52 @@ header {
   display: block;
 }
 
-/* Right Side Controls - Clock + Sign In (Same Line) */
 .right-controls {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
-/* Digital Clock - Elegant */
+/* Live Users Counter Badge matching Digital Clock */
+.live-users-badge {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  padding: 7px 16px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #FFF5E6;
+  border: 1px solid rgba(230, 177, 126, 0.6);
+  white-space: nowrap;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.28);
+  animation: pulseLive 1.8s infinite;
+}
+
+@keyframes pulseLive {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.live-count-val {
+  font-family: 'Fira Mono', 'Courier New', monospace;
+  font-weight: 700;
+  color: var(--highlight-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Digital Clock */
 .digital-clock {
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(6px);
@@ -122,7 +158,6 @@ header {
   border: 1px solid rgba(230, 177, 126, 0.6);
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.2);
   white-space: nowrap;
-  transition: all 0.2s;
 }
 
 .clock-date {
@@ -135,13 +170,13 @@ header {
   letter-spacing: 0.3px;
 }
 
-/* Sign In Button - Premium 3D Raised Effect */
+/* Sign In / Sign Out Button */
 .signin-btn {
   background: linear-gradient(145deg, var(--highlight-gold), #D49B5F);
   border: none;
   color: var(--primary-dark);
   font-weight: 700;
-  padding: 8px 26px;
+  padding: 8px 24px;
   border-radius: 40px;
   font-size: 0.85rem;
   cursor: pointer;
@@ -153,24 +188,51 @@ header {
   box-shadow: 0 5px 0 #9B6E42, 0 4px 12px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255,255,240,0.5);
   white-space: nowrap;
-  position: relative;
-  top: 0;
-}
-
-.signin-btn i {
-  font-size: 0.9rem;
 }
 
 .signin-btn:hover {
   transform: translateY(-2px);
   background: linear-gradient(145deg, #F0BC7A, #E6A155);
   box-shadow: 0 7px 0 #9B6E42, 0 8px 18px rgba(0, 0, 0, 0.35);
-  color: #0A2A35;
 }
 
 .signin-btn:active {
   transform: translateY(3px);
   box-shadow: 0 2px 0 #9B6E42, 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.signout-btn {
+  background: linear-gradient(145deg, #EF4444, #B91C1C);
+  color: #FFFFFF;
+  box-shadow: 0 5px 0 #7F1D1D, 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(254, 202, 202, 0.55);
+}
+
+.signout-btn:hover {
+  background: linear-gradient(145deg, #F87171, #DC2626);
+  box-shadow: 0 7px 0 #7F1D1D, 0 8px 18px rgba(220, 38, 38, 0.4);
+  color: #FFFFFF;
+}
+
+.signout-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #7F1D1D, 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.user-chip {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #FFE6C7;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 40px;
+  border: 1px solid rgba(230, 177, 126, 0.4);
+}
+
+.user-chip.show {
+  display: flex;
 }
 
 /* Navigation - 3D Raised Buttons */
@@ -191,12 +253,11 @@ nav li {
   position: relative;
 }
 
-/* 3D Raised Button Effect for Menu */
 nav > ul > li > a {
   text-decoration: none;
   color: white;
-  padding: 10px 24px;
-  min-width: 130px;
+  padding: 10px 22px;
+  min-width: 125px;
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
@@ -207,8 +268,7 @@ nav > ul > li > a {
   border-radius: 12px;
   box-shadow: 0 5px 0 #08212e, 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.08s linear;
-  position: relative;
-  top: 0;
+  white-space: nowrap;
 }
 
 nav > ul > li > a:active {
@@ -216,20 +276,25 @@ nav > ul > li > a:active {
   box-shadow: 0 2px 0 #08212e, 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
-nav > ul > li > a:hover {
+nav > ul > li > a:hover,
+nav > ul > li > a.nav-active {
   background: linear-gradient(145deg, #2D7A8F, var(--primary-accent));
   box-shadow: 0 6px 0 #08212e, 0 6px 14px rgba(0, 0, 0, 0.35);
   transform: translateY(-1px);
   color: #FFEEDD;
 }
 
-/* Dropdown with 3D Submenu */
+nav > ul > li > a.control-mgr-btn {
+  border: 1px solid rgba(230, 177, 126, 0.7);
+  color: #FFE6C7;
+}
+
 .submenu {
   list-style: none;
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 240px;
+  min-width: 245px;
   background: var(--primary-dark);
   border-radius: 16px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
@@ -243,7 +308,9 @@ nav > ul > li > a:hover {
 
 .submenu li a {
   padding: 8px 20px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   text-decoration: none;
   color: #F5F0E6;
   font-size: 0.8rem;
@@ -260,7 +327,6 @@ nav > ul > li > a:hover {
   color: var(--primary-dark);
   transform: translateX(6px);
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 nav li:hover > .submenu {
@@ -276,35 +342,22 @@ nav li:hover > .submenu {
 }
 
 @keyframes fadeDrop {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.has-submenu::after {
-  content: " ▼";
-  font-size: 0.65rem;
-  font-weight: normal;
-}
+.has-submenu::after { content: " ▼"; font-size: 0.65rem; font-weight: normal; }
+.has-submenu-right::after { content: " ▶"; font-size: 0.65rem; }
 
-.has-submenu-right::after {
-  content: " ▶";
-  font-size: 0.65rem;
-}
-
-/* Iframe Section - FIXED BACKGROUND */
+/* Iframe Section */
 .iframe-container {
   width: 100%;
-  height: calc(100vh - 115px);
+  height: calc(100vh - 125px);
   background: linear-gradient(145deg, #EFF2F7 0%, #E8EDF4 100%);
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+}
+
+.iframe-container.hidden {
+  display: none;
 }
 
 iframe {
@@ -314,6 +367,385 @@ iframe {
   background: linear-gradient(145deg, #EFF2F7 0%, #E8EDF4 100%);
   display: block;
 }
+
+/* ========== CONTROL MANAGER DASHBOARD (Same Theme Colors) ========== */
+.control-manager-view {
+  display: none;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 2.5rem;
+  min-height: calc(100vh - 165px);
+}
+
+.control-manager-view.active {
+  display: block;
+}
+
+.cm-header-bar {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-accent) 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 3px solid var(--highlight-gold);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1.5rem;
+}
+
+.cm-header-bar h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.cm-header-bar p {
+  font-size: 0.8rem;
+  color: #CCE6F0;
+  margin-top: 3px;
+}
+
+.cm-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.cm-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s;
+}
+
+.cm-btn:hover {
+  background: rgba(255,255,255,0.22);
+}
+
+.cm-btn-gold {
+  background: linear-gradient(145deg, var(--highlight-gold), #D49B5F);
+  color: var(--primary-dark);
+  border: none;
+  font-weight: 700;
+}
+
+.cm-btn-gold:hover {
+  background: linear-gradient(145deg, #F0BC7A, #E6A155);
+}
+
+/* Segmented Tabs inside Control Manager */
+.cm-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  background: white;
+  padding: 6px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #D8E2EC;
+}
+
+.cm-tab-btn {
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--secondary-deep);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.cm-tab-btn.active {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-accent));
+  color: #FFE6C7;
+  box-shadow: 0 3px 8px rgba(11, 43, 64, 0.25);
+}
+
+/* KPI Grid */
+.cm-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cm-kpi-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid #D8E2EC;
+  box-shadow: var(--shadow-sm);
+}
+
+.cm-kpi-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #52667A;
+}
+
+.cm-kpi-num {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cm-kpi-sub {
+  font-size: 0.73rem;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.cm-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid #D8E2EC;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.25rem;
+}
+
+.cm-analytics-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.25rem;
+}
+
+.cm-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.cm-input, .cm-select {
+  height: 38px;
+  border: 1px solid #CBD5E1;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 0.84rem;
+  color: var(--primary-dark);
+  background: #F8FAFC;
+  outline: none;
+}
+
+.cm-input:focus, .cm-select:focus {
+  border-color: var(--primary-accent);
+  background: white;
+}
+
+/* Table */
+.cm-table-wrap {
+  overflow-x: auto;
+}
+
+table.cm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+table.cm-table th {
+  background: #F1F5F9;
+  color: var(--primary-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 11px 12px;
+  border-bottom: 2px solid #CBD5E1;
+}
+
+table.cm-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #E2E8F0;
+  vertical-align: middle;
+}
+
+table.cm-table tr:hover td {
+  background: #F8FAFC;
+}
+
+/* ========== SLIDER SWITCH DESIGN (Access Permission & Role Slider) ========== */
+.slider-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.switch-slider {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.switch-slider input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-track {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #94A3B8;
+  border-radius: 999px;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-track::before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.switch-slider input:checked + .slider-track {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-accent));
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(230, 177, 126, 0.5);
+}
+
+.switch-slider input:checked + .slider-track::before {
+  transform: translateX(24px);
+  background: var(--highlight-gold);
+}
+
+.switch-slider input:disabled + .slider-track {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.slider-status-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-width: 58px;
+}
+
+.status-allowed { color: #0F5132; }
+.status-denied { color: #9A3412; }
+
+/* 3-Step Role Level Slider Switch (User | Office | Admin) */
+.role-slider-group {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: repeat(3, 72px);
+  background: #E2E8F0;
+  border-radius: 999px;
+  padding: 3px;
+  border: 1px solid #CBD5E1;
+}
+
+.role-slider-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 72px;
+  height: calc(100% - 6px);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-accent));
+  border: 1px solid var(--highlight-gold);
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  pointer-events: none;
+}
+
+.role-slider-btn {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  padding: 5px 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-align: center;
+}
+
+.role-slider-btn.active {
+  color: #FFE6C7;
+}
+
+.role-slider-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.del-row-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #FECACA;
+  background: #FEF2F2;
+  color: #B91C1C;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.del-row-btn:hover:not(:disabled) {
+  background: #DC2626;
+  color: white;
+  border-color: #DC2626;
+}
+
+.del-row-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cm-alert {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  margin-bottom: 1rem;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cm-alert.show { display: flex; }
+.cm-alert-ok { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+.cm-alert-err { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+
+.progress-row { margin-top: 12px; }
+.progress-head { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px; font-weight: 600; }
+.progress-track { height: 9px; border-radius: 999px; background: #E2E8F0; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-dark), var(--primary-accent)); }
 
 /* Footer */
 footer {
@@ -325,14 +757,14 @@ footer {
   border-top: 2px solid var(--highlight-gold);
 }
 
-/* ========== MODAL WITH EMBEDDED SIGNIN FORM (REAL LOGIN) ========== */
+/* Modal (Light-Emitting Luminous Surface) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(11, 43, 64, 0.65);
   backdrop-filter: blur(8px);
   z-index: 2000;
   display: flex;
@@ -348,28 +780,15 @@ footer {
   opacity: 1;
 }
 
-/* Modern modal card - consistent with GP theme */
 .auth-modal-card {
-  width: 500px;
-  max-width: 90vw;
-  background: rgba(18, 25, 45, 0.95);
-  backdrop-filter: blur(16px);
-  border-radius: 2rem;
-  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  width: 480px;
+  max-width: 92vw;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 0 55px rgba(255, 246, 224, 0.65), 0 0 22px rgba(230, 177, 126, 0.45), 0 24px 55px rgba(11, 43, 64, 0.35);
   overflow: hidden;
-  animation: modalPop 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-  border: 1px solid rgba(230, 177, 126, 0.4);
-}
-
-@keyframes modalPop {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  color: #0F172A;
 }
 
 .modal-header {
@@ -383,7 +802,7 @@ footer {
 
 .modal-header h3 {
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -391,84 +810,53 @@ footer {
 }
 
 .modal-header button {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.18);
   border: none;
   color: white;
-  font-size: 1.2rem;
   width: 34px;
   height: 34px;
   border-radius: 50%;
   cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.modal-header button:hover {
-  background: #c62828;
-  transform: rotate(90deg);
-}
-
-/* embedded form styles */
 .modal-form-content {
-  padding: 1.8rem 1.8rem 1.8rem;
+  padding: 1.6rem;
+  background: radial-gradient(circle at top center, #FFFFFF 0%, #F8FAFC 100%);
 }
 
 .tabs-modal {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.8rem;
-  background: rgba(0,0,0,0.3);
+  gap: 0.4rem;
+  margin-bottom: 1.4rem;
+  background: #E2E8F0;
   border-radius: 3rem;
-  padding: 0.25rem;
+  padding: 0.28rem;
 }
 
 .tab-modal-btn {
   flex: 1;
   background: transparent;
   border: none;
-  padding: 0.7rem 0;
+  padding: 0.65rem 0;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   border-radius: 2rem;
-  color: #b9c7d9;
+  color: #475569;
   cursor: pointer;
   transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
 }
 
 .tab-modal-btn.active {
-  background: var(--highlight-gold);
+  background: #FFFFFF;
   color: #0B2B40;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(11, 43, 64, 0.14);
 }
 
-.form-panel-modal {
-  display: none;
-  animation: fadeSlide 0.25s ease;
-}
+.form-panel-modal { display: none; }
+.form-panel-modal.active-panel-modal { display: block; }
 
-.form-panel-modal.active-panel-modal {
-  display: block;
-}
-
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.input-group {
-  margin-bottom: 1.2rem;
-}
-
-.input-group label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: #cbd5e6;
-}
+.input-group { margin-bottom: 1.1rem; }
+.input-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.35rem; color: #1E293B; }
 
 .input-wrapper {
   position: relative;
@@ -479,28 +867,25 @@ footer {
 .input-wrapper i {
   position: absolute;
   left: 1rem;
-  color: #8ba0bc;
+  color: #64748B;
   font-size: 0.9rem;
-  pointer-events: none;
 }
 
-.input-wrapper input {
+.input-wrapper input, .input-wrapper select {
   width: 100%;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid #334155;
-  padding: 0.75rem 1rem 0.75rem 2.6rem;
-  font-size: 0.9rem;
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  padding: 0.72rem 2.5rem 0.72rem 2.5rem;
+  font-size: 0.88rem;
   border-radius: 2rem;
-  color: #f1f5f9;
-  font-weight: 500;
-  transition: all 0.2s;
+  color: #0F172A;
   outline: none;
-  font-family: 'Inter', sans-serif;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
-.input-wrapper input:focus {
-  border-color: var(--highlight-gold);
-  box-shadow: 0 0 0 3px rgba(230, 177, 126, 0.3);
+.input-wrapper input:focus, .input-wrapper select:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(230, 177, 126, 0.35);
 }
 
 .toggle-pw-modal {
@@ -508,146 +893,49 @@ footer {
   right: 1rem;
   background: none;
   border: none;
-  color: #9aa9c1;
+  color: #64748B;
   cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.checkbox-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0.8rem 0 1.4rem;
-  font-size: 0.8rem;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #cbd5e6;
-  cursor: pointer;
-}
-
-.checkbox-label input {
-  accent-color: var(--highlight-gold);
-  width: 1rem;
-  height: 1rem;
-}
-
-.forgot-link {
-  color: var(--highlight-gold);
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 500;
 }
 
 .action-btn-modal {
   width: 100%;
   background: linear-gradient(98deg, #1E5A6B, #0B2B40);
-  border: none;
+  border: 1px solid rgba(230, 177, 126, 0.5);
   padding: 0.8rem;
   border-radius: 2rem;
   font-weight: 700;
   font-size: 0.9rem;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
+  box-shadow: 0 6px 16px rgba(11, 43, 64, 0.22);
 }
 
 .action-btn-modal:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(98deg, #2D7A8F, #1E5A6B);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+  background: linear-gradient(98deg, #267085, #14415E);
 }
 
 .message-area-modal {
-  margin-top: 1rem;
-  font-size: 0.75rem;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
   text-align: center;
-  padding: 0.5rem;
-  border-radius: 2rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.85rem;
   font-weight: 500;
 }
 
-.error-msg-modal {
-  background: rgba(244, 63, 94, 0.2);
-  color: #fecdd3;
+.error-msg-modal { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+.success-msg-modal { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.info-msg-modal { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+
+@media (max-width: 1024px) {
+  .cm-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cm-analytics-grid { grid-template-columns: 1fr; }
 }
 
-.success-msg-modal {
-  background: rgba(34, 197, 94, 0.15);
-  color: #bef264;
-}
-
-.info-msg-modal {
-  background: rgba(230, 177, 126, 0.2);
-  color: #FFE6B3;
-}
-
-.demo-note-modal {
-  margin-top: 1.2rem;
-  text-align: center;
-  font-size: 0.65rem;
-  color: #8aa0bc;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 1rem;
-}
-
-.loading-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Debug Console - Optional (shows only when needed) */
-.debug-console {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.8);
-  color: #0f0;
-  font-family: monospace;
-  font-size: 10px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 9999;
-  display: none;
-  max-width: 300px;
-  word-wrap: break-word;
-}
-
-.debug-console.show {
-  display: block;
-}
-
-/* Responsive */
-@media (max-width: 560px) {
-  .auth-modal-card {
-    width: 95vw;
-  }
-  .modal-form-content {
-    padding: 1.2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .iframe-container {
-    height: calc(100vh - 180px);
-  }
+@media (max-width: 640px) {
+  .cm-kpi-grid { grid-template-columns: 1fr; }
+  .control-manager-view { padding: 1rem; }
 }
 </style>
 </head>
@@ -664,13 +952,24 @@ footer {
         </div>
       </div>
       <div class="right-controls">
+        <div class="live-users-badge" title="Live active browser tabs">
+          <span class="live-dot"></span>
+          <span>Live Users:</span>
+          <span id="liveUserCount" class="live-count-val">1</span>
+        </div>
         <div class="digital-clock">
           <div id="liveTime">--:--:--</div>
           <div id="liveDate" class="clock-date">---</div>
         </div>
+        <div id="userChip" class="user-chip">
+          <i class="fas fa-user-shield"></i>
+          <span id="userChipLabel"></span>
+        </div>
         <button class="signin-btn" id="signInBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+        <button class="signin-btn signout-btn" id="signOutBtn" style="display:none;" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
       </div>
     </div>
+
     <div class="nav-wrapper">
       <nav>
         <ul>
@@ -728,12 +1027,12 @@ footer {
           </li>
           <li><a class="has-submenu">Bill Print</a>
             <ul class="submenu">
-              <li><a onclick="loadPage('najim')">Najim Ali</a></li>
-              <li><a onclick="loadPage('rehan')">Rehan Ali</a></li>
-              <li><a onclick="loadPage('vrpcf')">VRP and CF Working Certificate</a></li>
-              <li><a onclick="loadPage('teashop')">Tea Shop Bill</a></li>
-              <li><a onclick="loadPage('sansad')">Sansad Meeting Scheduler</a></li>
-              <li><a onclick="loadPage('meeting')">Meeting Management</a></li>
+              <li><a onclick="loadProtectedPage('najim', 'Office')">Najim Ali</a></li>
+              <li><a onclick="loadProtectedPage('rehan', 'Office')">Rehan Ali</a></li>
+              <li><a onclick="loadProtectedPage('vrpcf', 'Office')">VRP and CF Working Certificate</a></li>
+              <li><a onclick="loadProtectedPage('teashop', 'Office')">Tea Shop Bill</a></li>
+              <li><a onclick="loadProtectedPage('sansad', 'Office')">Sansad Meeting Scheduler</a></li>
+              <li><a onclick="loadProtectedPage('meeting', 'Office')">Meeting Management</a></li>
             </ul>
           </li>
           <li><a class="has-submenu">Forms</a>
@@ -743,24 +1042,186 @@ footer {
               <li><a onclick="loadPage('domicile')">Domicile</a></li>
             </ul>
           </li>
+          <!-- CONTROL MANAGER (ADMIN ONLY) -->
+          <li id="controlManagerNavItem" style="display:none;"><a id="controlManagerNav" class="has-submenu control-mgr-btn" onclick="openControlManager('users')">Control Manager</a>
+            <ul class="submenu">
+              <li><a onclick="openControlManager('users')">User Permissions &amp; Sliders</a></li>
+              <li><a onclick="openControlManager('analytics')">Real-Time Analytics</a></li>
+              <li><a onclick="openControlManager('live')">Live Users Monitor</a></li>
+              <li><a onclick="openControlManager('rbac')">RBAC Policy Matrix</a></li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>
   </div>
 </header>
 
-<div class="iframe-container">
+<div id="portalFrameContainer" class="iframe-container">
   <iframe id="frameContent" src="home1.htm" title="Gram Panchayat Portal"></iframe>
 </div>
 
+<!-- CONTROL MANAGER ADMINISTRATIVE DASHBOARD -->
+<section id="controlManagerView" class="control-manager-view" aria-label="Control Manager Dashboard">
+  <div class="cm-header-bar">
+    <div>
+      <h2><i class="fas fa-sliders-h" style="color:#E6B17E; margin-right:8px;"></i>Control Manager — Administrative Console</h2>
+      <p>Manage member accounts with permission slider switches, role levels, live user count, and real-time analytics</p>
+    </div>
+    <div class="cm-actions">
+      <button class="cm-btn" onclick="loadPage('home1')"><i class="fas fa-arrow-left"></i> Portal Home</button>
+      <button class="cm-btn" onclick="syncControlManager()"><i class="fas fa-sync-alt"></i> Sync Sheet</button>
+      <button class="cm-btn cm-btn-gold" onclick="openAddUserModal()"><i class="fas fa-user-plus"></i> Add User</button>
+    </div>
+  </div>
+
+  <div id="cmAlert" class="cm-alert">
+    <span id="cmAlertText"></span>
+    <button class="cm-btn" style="color:#0B2B40; border-color:#CBD5E1; background:white; padding:4px 10px;" onclick="hideCmAlert()">Close</button>
+  </div>
+
+  <div class="cm-kpi-grid">
+    <div class="cm-kpi-card">
+      <div class="cm-kpi-label">Registered Accounts</div>
+      <div id="kpiTotalUsers" class="cm-kpi-num">0</div>
+      <div id="kpiRoleBreakdown" class="cm-kpi-sub">0 Admin · 0 Office · 0 User</div>
+    </div>
+    <div class="cm-kpi-card">
+      <div class="cm-kpi-label">Approved (Allowed)</div>
+      <div id="kpiAllowed" class="cm-kpi-num" style="color:#0F5132;">0</div>
+      <div id="kpiApprovalPct" class="cm-kpi-sub">0% active</div>
+    </div>
+    <div class="cm-kpi-card">
+      <div class="cm-kpi-label">Pending / Denied</div>
+      <div id="kpiDenied" class="cm-kpi-num" style="color:#9A3412;">0</div>
+      <div class="cm-kpi-sub">Switch slider to allow access</div>
+    </div>
+    <div class="cm-kpi-card">
+      <div class="cm-kpi-label">Live Active Users</div>
+      <div id="kpiLiveCount" class="cm-kpi-num" style="color:#1E5A6B;">1</div>
+      <div id="kpiLiveSplit" class="cm-kpi-sub">Active tabs tracked live</div>
+    </div>
+  </div>
+
+  <div class="cm-tabs">
+    <button class="cm-tab-btn active" data-cmtab="users" onclick="switchCmTab('users')"><i class="fas fa-users-cog"></i> User Permissions &amp; Sliders</button>
+    <button class="cm-tab-btn" data-cmtab="analytics" onclick="switchCmTab('analytics')"><i class="fas fa-chart-line"></i> Real-Time Analytics</button>
+    <button class="cm-tab-btn" data-cmtab="live" onclick="switchCmTab('live')"><i class="fas fa-broadcast-tower"></i> Live Active Sessions</button>
+    <button class="cm-tab-btn" data-cmtab="rbac" onclick="switchCmTab('rbac')"><i class="fas fa-shield-alt"></i> RBAC Matrix</button>
+  </div>
+
+  <!-- TAB: USER PERMISSIONS WITH SLIDER SWITCHES -->
+  <div id="cmTabUsers" class="cm-card">
+    <div class="cm-toolbar">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <input type="search" id="cmSearch" class="cm-input" placeholder="Search email or row ID..." oninput="renderUsersTable()" style="width:230px;">
+        <select id="cmRoleFilter" class="cm-select" onchange="renderUsersTable()">
+          <option value="All">All Roles</option>
+          <option value="Admin">Admin</option>
+          <option value="Office">Office</option>
+          <option value="User">User</option>
+        </select>
+        <select id="cmPermFilter" class="cm-select" onchange="renderUsersTable()">
+          <option value="All">All Permissions</option>
+          <option value="Allowed">Allowed</option>
+          <option value="Denied">Denied</option>
+        </select>
+      </div>
+      <button class="cm-btn" style="background:#0B2B40; color:white;" onclick="exportUsersCsv()"><i class="fas fa-download"></i> Export CSV</button>
+    </div>
+
+    <div class="cm-table-wrap">
+      <table class="cm-table">
+        <thead>
+          <tr>
+            <th>Row ID</th>
+            <th>User Account</th>
+            <th>Role Level Slider</th>
+            <th>Access Permission Switch</th>
+            <th style="text-align:right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="cmUsersBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: REAL-TIME ANALYTICS -->
+  <div id="cmTabAnalytics" style="display:none;">
+    <div class="cm-analytics-grid">
+      <div class="cm-card">
+        <h3 style="font-size:1rem; color:#0B2B40;">Live Active User Traffic Timeline</h3>
+        <p style="font-size:0.76rem; color:#64748B; margin-top:2px;">Real-time samples recorded from active tab heartbeats (15s interval)</p>
+        <div style="margin-top:1rem;">
+          <svg id="cmTrafficSvg" viewBox="0 0 640 190" style="width:100%; height:195px; display:block;"></svg>
+        </div>
+      </div>
+      <div class="cm-card">
+        <h3 style="font-size:1rem; color:#0B2B40;">Role Distribution</h3>
+        <p style="font-size:0.76rem; color:#64748B; margin-top:2px;">Breakdown across Control Pannel accounts</p>
+        <div id="cmRoleBars" style="margin-top:1rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: LIVE ACTIVE SESSIONS -->
+  <div id="cmTabLive" class="cm-card" style="display:none;">
+    <div class="cm-toolbar">
+      <div>
+        <h3 style="font-size:1rem; color:#0B2B40;">Active Browser Tabs / Live Users</h3>
+        <p style="font-size:0.76rem; color:#64748B;">Each active tab sends a heartbeat every 30 seconds</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="cm-btn" style="background:#F1F5F9; color:#0B2B40; border-color:#CBD5E1;" onclick="fetchLiveSessions()"><i class="fas fa-sync-alt"></i> Refresh</button>
+        <button class="cm-btn" style="background:#0B2B40; color:white;" onclick="cleanupInactive()">Clean Up Stale</button>
+      </div>
+    </div>
+    <div class="cm-table-wrap">
+      <table class="cm-table">
+        <thead>
+          <tr>
+            <th>User / Guest</th>
+            <th>Role</th>
+            <th>Session ID</th>
+            <th>First Seen</th>
+            <th>Last Active</th>
+          </tr>
+        </thead>
+        <tbody id="cmLiveBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TAB: RBAC MATRIX -->
+  <div id="cmTabRbac" class="cm-card" style="display:none;">
+    <h3 style="font-size:1rem; color:#0B2B40; margin-bottom:0.75rem;">Role-Based Access Control (RBAC) Matrix</h3>
+    <div class="cm-table-wrap">
+      <table class="cm-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Public</th>
+            <th>User</th>
+            <th>Office</th>
+            <th>Admin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Public Portal Pages (Profile, PRI, Funds, Services, Forms)</td><td>Allowed</td><td>Allowed</td><td>Allowed</td><td>Allowed</td></tr>
+          <tr><td>Live User Count Heartbeat</td><td>Allowed</td><td>Allowed</td><td>Allowed</td><td>Allowed</td></tr>
+          <tr><td>Bill Print &amp; Meeting Management</td><td>Denied</td><td>Denied</td><td>Allowed</td><td>Allowed</td></tr>
+          <tr><td>Control Manager (Permissions, Sliders, Analytics, Delete)</td><td>Denied</td><td>Denied</td><td>Denied</td><td>Allowed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <footer>
-  <p>© 2025 Bhagabanpur Gram Panchayat, Malda | Citizen First | e-Governance Initiative | Digital India</p>
+  <p>© 2026 Bhagabanpur Gram Panchayat, Malda | Citizen First | e-Governance Initiative | Digital India</p>
 </footer>
 
-<!-- Debug Console (for troubleshooting) -->
-<div id="debugConsole" class="debug-console"></div>
-
-<!-- SIGN IN MODAL (REAL LOGIN INTEGRATION) -->
+<!-- SIGN IN / SIGN UP MODAL -->
 <div id="signinModal" class="modal-overlay">
   <div class="auth-modal-card">
     <div class="modal-header">
@@ -769,10 +1230,9 @@ footer {
     </div>
     <div class="modal-form-content">
       <div class="tabs-modal">
-        <button class="tab-modal-btn active" id="modalSigninTab"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-        <button class="tab-modal-btn" id="modalSignupTab"><i class="fas fa-user-plus"></i> Sign Up</button>
+        <button class="tab-modal-btn active" id="modalSigninTab">Sign In</button>
+        <button class="tab-modal-btn" id="modalSignupTab">Sign Up</button>
       </div>
-      <!-- Sign In Panel -->
       <div id="modalSigninPanel" class="form-panel-modal active-panel-modal">
         <form id="modalLoginForm">
           <div class="input-group">
@@ -781,461 +1241,677 @@ footer {
           </div>
           <div class="input-group">
             <label>Password</label>
-            <div class="input-wrapper"><i class="fas fa-key"></i><input type="password" id="modalLoginPass" placeholder="••••••••"><button type="button" class="toggle-pw-modal toggle-login-modal"><i class="far fa-eye-slash"></i></button></div>
+            <div class="input-wrapper"><i class="fas fa-key"></i><input type="password" id="modalLoginPass" placeholder="••••••••"><button type="button" class="toggle-pw-modal" onclick="togglePw('modalLoginPass', this)"><i class="far fa-eye-slash"></i></button></div>
           </div>
-          <div class="checkbox-row">
-            <label class="checkbox-label"><input type="checkbox" id="modalRemember"> Remember me</label>
-            <a href="#" id="modalForgotLink" class="forgot-link">Forgot password?</a>
-          </div>
-          <button type="submit" class="action-btn-modal" id="modalLoginBtn"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
+          <button type="submit" class="action-btn-modal" id="modalLoginBtn">Sign In</button>
           <div id="modalLoginMsg" class="message-area-modal"></div>
         </form>
       </div>
-      <!-- Sign Up Panel -->
       <div id="modalSignupPanel" class="form-panel-modal">
         <form id="modalSignupForm">
           <div class="input-group"><label>Full Name</label><div class="input-wrapper"><i class="fas fa-user-circle"></i><input type="text" id="modalSignupName" placeholder="Enter full name"></div></div>
           <div class="input-group"><label>Email / Username</label><div class="input-wrapper"><i class="fas fa-envelope"></i><input type="email" id="modalSignupEmail" placeholder="your.email@gmail.com"></div></div>
-          <div class="input-group"><label>Password</label><div class="input-wrapper"><i class="fas fa-key"></i><input type="password" id="modalSignupPass" placeholder="Min. 4 characters"><button type="button" class="toggle-pw-modal toggle-signup-modal"><i class="far fa-eye-slash"></i></button></div></div>
-          <div class="checkbox-row"><label class="checkbox-label"><input type="checkbox" id="modalTerms"> I agree to <a href="#" style="color:#E6B17E;" id="termsModalLink">Terms & Conditions</a></label></div>
-          <button type="submit" class="action-btn-modal" id="modalSignupSubmit"><i class="fas fa-user-check"></i> Create Account</button>
+          <div class="input-group"><label>Password</label><div class="input-wrapper"><i class="fas fa-key"></i><input type="password" id="modalSignupPass" placeholder="Min. 4 characters"><button type="button" class="toggle-pw-modal" onclick="togglePw('modalSignupPass', this)"><i class="far fa-eye-slash"></i></button></div></div>
+          <label style="display:flex; gap:8px; align-items:center; font-size:0.78rem; margin-bottom:0.85rem; color:#334155;"><input type="checkbox" id="modalTerms"> I agree to Terms (New accounts await Admin approval)</label>
+          <button type="submit" class="action-btn-modal" id="modalSignupSubmit">Create Account</button>
           <div id="modalSignupMsg" class="message-area-modal"></div>
         </form>
-        <div class="demo-note-modal">
-          <i class="fas fa-info-circle"></i> 
-          <strong>Note:</strong> After registration, your account needs <strong>admin approval</strong> before you can sign in. 
-          You will receive an email notification once approved.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD USER MODAL -->
+<div id="addUserModal" class="modal-overlay">
+  <div class="auth-modal-card">
+    <div class="modal-header">
+      <h3><i class="fas fa-user-plus"></i> Add New Member</h3>
+      <button onclick="closeAddUserModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-form-content">
+      <form id="addUserForm">
+        <div class="input-group"><label>Full Name</label><div class="input-wrapper"><i class="fas fa-user"></i><input type="text" id="addName" placeholder="Member name"></div></div>
+        <div class="input-group"><label>Email / Username</label><div class="input-wrapper"><i class="fas fa-envelope"></i><input type="email" id="addEmail" required placeholder="member@bhagabanpur.gov.in"></div></div>
+        <div class="input-group"><label>Password</label><div class="input-wrapper"><i class="fas fa-key"></i><input type="password" id="addPassword" required placeholder="Min. 4 characters"></div></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="input-group"><label>Role Level</label><div class="input-wrapper"><i class="fas fa-shield-alt"></i><select id="addRole"><option value="User">User</option><option value="Office">Office</option><option value="Admin">Admin</option></select></div></div>
+          <div class="input-group"><label>Permission</label><div class="input-wrapper"><i class="fas fa-toggle-on"></i><select id="addPermission"><option value="Allowed">Allowed</option><option value="Denied">Denied</option></select></div></div>
         </div>
+        <button type="submit" class="action-btn-modal">Create Account</button>
+        <div id="addUserMsg" class="message-area-modal"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="deleteModal" class="modal-overlay">
+  <div class="auth-modal-card" style="width:420px;">
+    <div class="modal-header" style="background:#991B1B;">
+      <h3><i class="fas fa-trash-alt"></i> Delete Member Account</h3>
+      <button onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-form-content">
+      <p id="deleteModalMsg" style="font-size:0.88rem; color:#334155; line-height:1.5;"></p>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1.25rem;">
+        <button type="button" class="cm-btn" style="background:#F1F5F9; color:#0F172A; border-color:#CBD5E1;" onclick="closeDeleteModal()">Cancel</button>
+        <button type="button" class="cm-btn" style="background:#DC2626; border-color:#DC2626; color:white;" onclick="confirmDeleteUser()">Delete User</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // =====================================================
-  // GOOGLE APPS SCRIPT WEB APP URL
-  // =====================================================
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyI7Hrnbz2ecwFPzRX3a1k6E-LFs1s4kynSDNQecdEbGQAVj1STxZK80nUq2EhVQ8-C/exec';
-  
-  // Debug function
-  function debugLog(message, data = null) {
-    const debugDiv = document.getElementById('debugConsole');
-    if (debugDiv) {
-      const timestamp = new Date().toLocaleTimeString();
-      let logMessage = `[${timestamp}] ${message}`;
-      if (data) {
-        logMessage += `\nData: ${JSON.stringify(data, null, 2)}`;
-      }
-      debugDiv.textContent = logMessage;
-      debugDiv.classList.add('show');
-      setTimeout(() => {
-        debugDiv.classList.remove('show');
-      }, 8000);
+
+  function getTabSessionId() {
+    let id = sessionStorage.getItem('gp_tab_session_id');
+    if (!id) {
+      id = 'tab_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+      sessionStorage.setItem('gp_tab_session_id', id);
     }
-    console.log(message, data || '');
+    return id;
   }
-  
+  const TAB_SESSION_ID = getTabSessionId();
+
+  let currentUser = null;
+  let allUsers = [];
+  let trafficSamples = [];
+  let deleteTarget = null;
+
+  async function callGas(params) {
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(params)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  }
+
   // Digital Clock
   function updateClock() {
     const now = new Date();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12;
-    const timeStr = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')} ${ampm}`;
-    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    document.getElementById('liveTime').innerText = timeStr;
-    document.getElementById('liveDate').innerText = now.toLocaleDateString('en-IN', options);
+    document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-IN', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    });
+    document.getElementById('liveDate').textContent = now.toLocaleDateString('en-IN', {
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
   }
-  updateClock(); setInterval(updateClock, 1000);
-  
-  function loadPage(page) { document.getElementById("frameContent").src = page + ".htm"; }
-  window.loadPage = loadPage;
-  
-  // Modal Elements
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Live Active User Heartbeat & Polling
+  async function sendHeartbeat() {
+    try {
+      const res = await callGas({
+        action: 'registerView',
+        sessionId: TAB_SESSION_ID,
+        username: currentUser ? currentUser.username : 'Guest',
+        role: currentUser ? currentUser.role : 'Public',
+        userAgent: navigator.userAgent.slice(0, 160)
+      });
+      if (res.success && res.data && typeof res.data.activeCount === 'number') {
+        updateLiveCount(res.data.activeCount);
+      }
+    } catch (e) { console.warn('Heartbeat skipped'); }
+  }
+
+  async function pollLiveCount() {
+    try {
+      const res = await callGas({ action: 'getActiveCount' });
+      if (res.success && res.data) {
+        const count = typeof res.data.count === 'number' ? res.data.count : 0;
+        const sessions = Array.isArray(res.data.sessions) ? res.data.sessions : [];
+        updateLiveCount(count, sessions);
+      }
+    } catch (e) { console.warn('Live count poll skipped'); }
+  }
+
+  function updateLiveCount(count, sessions) {
+    document.getElementById('liveUserCount').textContent = String(count);
+    document.getElementById('kpiLiveCount').textContent = String(count);
+    if (sessions) {
+      const auth = sessions.filter(s => s.role !== 'Public').length;
+      const pub = Math.max(0, count - auth);
+      document.getElementById('kpiLiveSplit').textContent = auth + ' signed in · ' + pub + ' public';
+      trafficSamples.push({
+        label: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
+        total: count
+      });
+      if (trafficSamples.length > 20) trafficSamples.shift();
+      renderTrafficChart();
+    }
+  }
+
+  sendHeartbeat().then(pollLiveCount);
+  setInterval(sendHeartbeat, 30000);
+  setInterval(pollLiveCount, 15000);
+
+  // Navigation & Control Manager Routing
+  function loadPage(page) {
+    document.getElementById('controlManagerView').classList.remove('active');
+    document.getElementById('portalFrameContainer').classList.remove('hidden');
+    document.getElementById('controlManagerNav').classList.remove('nav-active');
+    document.getElementById('frameContent').src = page + '.htm';
+  }
+
+  function loadProtectedPage(page, requiredRole) {
+    if (!currentUser || currentUser.permission !== 'Allowed') {
+      openModal();
+      showModalMsg(document.getElementById('modalLoginMsg'), 'Sign in with an approved ' + requiredRole + ' or Admin account.', false, true);
+      return;
+    }
+    if (requiredRole === 'Office' && currentUser.role !== 'Office' && currentUser.role !== 'Admin') {
+      openModal();
+      showModalMsg(document.getElementById('modalLoginMsg'), 'Office or Admin role required for ' + page + '.', true);
+      return;
+    }
+    loadPage(page);
+  }
+
+  function openControlManager(tab) {
+    if (!currentUser || currentUser.permission !== 'Allowed') {
+      openModal();
+      showModalMsg(document.getElementById('modalLoginMsg'), 'Sign in as Admin to open Control Manager.', false, true);
+      return;
+    }
+    if (currentUser.role !== 'Admin') {
+      openModal();
+      showModalMsg(document.getElementById('modalLoginMsg'), 'Control Manager requires Admin privileges (current role: ' + currentUser.role + ').', true);
+      return;
+    }
+    document.getElementById('portalFrameContainer').classList.add('hidden');
+    document.getElementById('controlManagerView').classList.add('active');
+    document.getElementById('controlManagerNav').classList.add('nav-active');
+    switchCmTab(tab || 'users');
+    syncControlManager();
+  }
+
+  function switchCmTab(tab) {
+    document.querySelectorAll('.cm-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.cmtab === tab));
+    document.getElementById('cmTabUsers').style.display = tab === 'users' ? 'block' : 'none';
+    document.getElementById('cmTabAnalytics').style.display = tab === 'analytics' ? 'block' : 'none';
+    document.getElementById('cmTabLive').style.display = tab === 'live' ? 'block' : 'none';
+    document.getElementById('cmTabRbac').style.display = tab === 'rbac' ? 'block' : 'none';
+    if (tab === 'live') fetchLiveSessions();
+  }
+
+  // Auth Modal Controls
   const modal = document.getElementById('signinModal');
-  const openBtn = document.getElementById('signInBtn');
-  const closeBtn = document.getElementById('closeModalBtn');
-  const modalSigninTab = document.getElementById('modalSigninTab');
-  const modalSignupTab = document.getElementById('modalSignupTab');
-  const modalSigninPanel = document.getElementById('modalSigninPanel');
-  const modalSignupPanel = document.getElementById('modalSignupPanel');
-  
-  function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
-  openBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
+  document.getElementById('signInBtn').addEventListener('click', openModal);
+  document.getElementById('closeModalBtn').addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-  
-  modalSigninTab.addEventListener('click', () => {
-    modalSigninTab.classList.add('active'); modalSignupTab.classList.remove('active');
-    modalSigninPanel.classList.add('active-panel-modal'); modalSignupPanel.classList.remove('active-panel-modal');
-    document.getElementById('modalLoginMsg').innerHTML = '';
+
+  function openModal() { modal.classList.add('active'); }
+  function closeModal() { modal.classList.remove('active'); }
+
+  document.getElementById('modalSigninTab').addEventListener('click', () => {
+    document.getElementById('modalSigninTab').classList.add('active');
+    document.getElementById('modalSignupTab').classList.remove('active');
+    document.getElementById('modalSigninPanel').classList.add('active-panel-modal');
+    document.getElementById('modalSignupPanel').classList.remove('active-panel-modal');
   });
-  modalSignupTab.addEventListener('click', () => {
-    modalSignupTab.classList.add('active'); modalSigninTab.classList.remove('active');
-    modalSignupPanel.classList.add('active-panel-modal'); modalSigninPanel.classList.remove('active-panel-modal');
-    document.getElementById('modalSignupMsg').innerHTML = '';
+
+  document.getElementById('modalSignupTab').addEventListener('click', () => {
+    document.getElementById('modalSignupTab').classList.add('active');
+    document.getElementById('modalSigninTab').classList.remove('active');
+    document.getElementById('modalSignupPanel').classList.add('active-panel-modal');
+    document.getElementById('modalSigninPanel').classList.remove('active-panel-modal');
   });
-  
-  // Helper functions
-  function showModalMsg(element, text, isError = true, isInfo = false) {
-    element.textContent = text;
-    element.classList.remove('error-msg-modal', 'success-msg-modal', 'info-msg-modal');
-    if (isInfo) {
-      element.classList.add('info-msg-modal');
-    } else if (isError) {
-      element.classList.add('error-msg-modal');
-    } else {
-      element.classList.add('success-msg-modal');
-    }
-    setTimeout(() => { 
-      if (element.textContent === text) { 
-        element.textContent = ''; 
-        element.classList.remove('error-msg-modal', 'success-msg-modal', 'info-msg-modal'); 
-      } 
-    }, 5000);
+
+  function togglePw(id, btn) {
+    const inp = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    icon.classList.toggle('fa-eye');
+    icon.classList.toggle('fa-eye-slash');
   }
-  
-  function setButtonLoading(btn, isLoading, originalHtml) {
-    if (isLoading) { 
-      btn.disabled = true; 
-      btn.innerHTML = '<div class="loading-spinner"></div> Processing...'; 
-    } else { 
-      btn.disabled = false; 
-      btn.innerHTML = originalHtml; 
-    }
+
+  function showModalMsg(el, text, isErr, isInfo) {
+    el.textContent = text;
+    el.className = 'message-area-modal ' + (isInfo ? 'info-msg-modal' : isErr ? 'error-msg-modal' : 'success-msg-modal');
   }
-  
-  // =====================================================
-  // ENHANCED AUTHENTICATION WITH PERMISSION CHECK
-  // =====================================================
-  
-  // Function to check user permission before login
-  async function checkUserPermission(username) {
-    try {
-      debugLog('Checking permission for user:', username);
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 
-          action: 'checkPermission', 
-          username: username 
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      debugLog('Permission check response:', data);
-      return data;
-    } catch (error) {
-      console.error('Permission check error:', error);
-      debugLog('Permission check error:', error.message);
-      return { success: false, message: 'Error checking permission' };
-    }
-  }
-  
-  async function authenticateWithGoogleSheet(username, password) {
-    try {
-      debugLog('Authenticating user:', username);
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 
-          action: 'login', 
-          username: username, 
-          password: password 
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      debugLog('Authentication response:', data);
-      return data;
-    } catch (error) {
-      console.error('Authentication error:', error);
-      debugLog('Authentication error:', error.message);
-      return { 
-        success: false, 
-        message: 'Network error. Please check your connection and try again.' 
-      };
-    }
-  }
-  
-  async function registerWithGoogleSheet(name, email, password) {
-    try {
-      debugLog('Registering new user:', email);
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 
-          action: 'signup', 
-          name: name, 
-          email: email, 
-          password: password 
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      debugLog('Registration response:', data);
-      return data;
-    } catch (error) {
-      console.error('Signup error:', error);
-      debugLog('Signup error:', error.message);
-      return { 
-        success: false, 
-        message: 'Network error. Please try again.' 
-      };
-    }
-  }
-  
-  // Handle Sign In (Enhanced with strict permission check)
+
+  // Login
   document.getElementById('modalLoginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const user = document.getElementById('modalLoginUser').value.trim().toLowerCase();
     const pass = document.getElementById('modalLoginPass').value;
-    const remember = document.getElementById('modalRemember').checked;
-    const msgDiv = document.getElementById('modalLoginMsg');
-    const btn = document.getElementById('modalLoginBtn');
-    const original = btn.innerHTML;
-    
-    if (!user) { 
-      showModalMsg(msgDiv, 'Please enter your username or email.', true); 
-      return; 
-    }
-    if (!pass) { 
-      showModalMsg(msgDiv, 'Password is required.', true); 
-      return; 
-    }
-    
-    setButtonLoading(btn, true, original);
-    
+    const msg = document.getElementById('modalLoginMsg');
+    if (!user || !pass) return showModalMsg(msg, 'Username and password are required.', true);
+
     try {
-      // First, check if user has permission (optional but helpful for debugging)
-      const permissionCheck = await checkUserPermission(user);
-      
-      if (permissionCheck.success && permissionCheck.data) {
-        debugLog('Permission status for ' + user + ':', permissionCheck.data);
-        
-        // If user exists but permission is not "Allowed", show appropriate message
-        if (permissionCheck.data.isAllowed === false && permissionCheck.data.permission === 'Denied') {
-          showModalMsg(msgDiv, `⏳ Your account (${user}) is pending admin approval. Current status: ${permissionCheck.data.permission}. Please wait for approval email.`, true);
-          setButtonLoading(btn, false, original);
-          return;
-        }
+      const perm = await callGas({ action: 'checkPermission', username: user });
+      if (perm.success && perm.data && perm.data.isAllowed === false) {
+        return showModalMsg(msg, 'Pending admin approval (Status: ' + perm.data.permission + ').', true);
       }
-      
-      // Proceed with login
-      const result = await authenticateWithGoogleSheet(user, pass);
-      
-      if (result.success) {
-        // Successful login - user has "Allowed" permission
-        const sessionData = {
-          username: user,
-          role: result.data?.role || result.role || 'User',
-          name: result.data?.name || result.name || user.split('@')[0],
-          permission: result.data?.permission || 'Allowed',
-          loginTime: new Date().toISOString()
-        };
-        
-        if (remember) {
-          localStorage.setItem('gp_user_session', JSON.stringify(sessionData));
-          localStorage.setItem('gp_remember_username', user);
-        } else {
-          sessionStorage.setItem('gp_user_session', JSON.stringify(sessionData));
-          localStorage.removeItem('gp_remember_username');
-        }
-        
-        debugLog('Login successful for user:', sessionData);
-        showModalMsg(msgDiv, `✨ Welcome, ${sessionData.name}! Redirecting to dashboard...`, false);
-        
-        setTimeout(() => {
-          closeModal();
-          window.location.href = 'index2.htm';
-        }, 1000);
-      } else {
-        // Handle different error messages
-        const errorMsg = result.message || 'Invalid username or password.';
-        debugLog('Login failed:', errorMsg);
-        
-        if (errorMsg.includes('not been authorized') || errorMsg.includes('Access denied')) {
-          showModalMsg(msgDiv, '⏳ Your account is pending admin approval. Please wait for approval email.', true);
-        } else if (errorMsg.includes('Permission column missing')) {
-          showModalMsg(msgDiv, '⚠️ System configuration error. Please contact administrator.', true);
-        } else if (errorMsg.includes('Invalid username')) {
-          showModalMsg(msgDiv, '❌ Invalid username or password. Please check your credentials.', true);
-        } else {
-          showModalMsg(msgDiv, errorMsg, true);
-        }
-        
-        setButtonLoading(btn, false, original);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      debugLog('Login exception:', error.message);
-      showModalMsg(msgDiv, 'Connection error. Please try again.', true);
-      setButtonLoading(btn, false, original);
+      const res = await callGas({ action: 'login', username: user, password: pass });
+      if (!res.success) return showModalMsg(msg, res.message || 'Invalid credentials.', true);
+
+      currentUser = {
+        username: (res.data && res.data.username) || user,
+        role: (res.data && res.data.role) || 'User',
+        name: (res.data && res.data.name) || user.split('@')[0],
+        permission: (res.data && res.data.permission) || 'Allowed'
+      };
+      document.getElementById('modalLoginPass').value = '';
+      updateAuthUI();
+      closeModal();
+      sendHeartbeat();
+      if (currentUser.role === 'Admin') openControlManager('users');
+    } catch (err) {
+      showModalMsg(msg, 'Network error: ' + err.message, true);
     }
   });
-  
-  // Handle Sign Up (Enhanced with pending approval message)
+
+  // Signup
   document.getElementById('modalSignupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('modalSignupName').value.trim();
     const email = document.getElementById('modalSignupEmail').value.trim().toLowerCase();
     const pass = document.getElementById('modalSignupPass').value;
-    const terms = document.getElementById('modalTerms').checked;
-    const msgDiv = document.getElementById('modalSignupMsg');
-    const btn = document.getElementById('modalSignupSubmit');
-    const original = btn.innerHTML;
-    
-    // Validation
-    if (!name) { 
-      showModalMsg(msgDiv, 'Please enter your full name.', true); 
-      return; 
-    }
-    if (name.length < 2) { 
-      showModalMsg(msgDiv, 'Name must be at least 2 characters.', true); 
-      return; 
-    }
-    if (!email) { 
-      showModalMsg(msgDiv, 'Email address is required.', true); 
-      return; 
-    }
-    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
-    if (!emailRegex.test(email)) { 
-      showModalMsg(msgDiv, 'Please enter a valid email address.', true); 
-      return; 
-    }
-    if (!pass) { 
-      showModalMsg(msgDiv, 'Password cannot be empty.', true); 
-      return; 
-    }
-    if (pass.length < 4) { 
-      showModalMsg(msgDiv, 'Password must be at least 4 characters.', true); 
-      return; 
-    }
-    if (!terms) { 
-      showModalMsg(msgDiv, 'You must agree to the Terms & Conditions to sign up.', true); 
-      return; 
-    }
-    
-    setButtonLoading(btn, true, original);
-    
+    const msg = document.getElementById('modalSignupMsg');
+
+    if (name.length < 2) return showModalMsg(msg, 'Full name required.', true);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showModalMsg(msg, 'Valid email required.', true);
+    if (pass.length < 4) return showModalMsg(msg, 'Password min 4 characters.', true);
+    if (!document.getElementById('modalTerms').checked) return showModalMsg(msg, 'Accept terms first.', true);
+
     try {
-      const result = await registerWithGoogleSheet(name, email, pass);
-      
-      if (result.success) {
-        // Show success message with pending approval info
-        const successMsg = result.message || 'Account created successfully! Your account requires administrator approval before you can sign in.';
-        showModalMsg(msgDiv, '✅ ' + successMsg, false);
-        debugLog('Registration successful for:', email);
-        
-        // Clear form
-        document.getElementById('modalSignupName').value = '';
-        document.getElementById('modalSignupEmail').value = '';
-        document.getElementById('modalSignupPass').value = '';
-        document.getElementById('modalTerms').checked = false;
-        
-        // Switch to sign in tab after delay
-        setTimeout(() => {
-          modalSigninTab.click();
-          document.getElementById('modalLoginUser').value = email;
-          showModalMsg(document.getElementById('modalLoginMsg'), 
-            '📝 Account created! Please wait for admin approval. You will be notified when your account is activated. Status: Pending Approval', 
-            false, true);
-        }, 2000);
-      } else {
-        debugLog('Registration failed:', result.message);
-        showModalMsg(msgDiv, result.message || 'Signup failed. Email may already exist.', true);
+      const res = await callGas({ action: 'signup', name, email, password: pass });
+      if (!res.success) return showModalMsg(msg, res.message || 'Signup failed.', true);
+      document.getElementById('modalSignupForm').reset();
+      document.getElementById('modalSigninTab').click();
+      document.getElementById('modalLoginUser').value = email;
+      showModalMsg(document.getElementById('modalLoginMsg'), res.message || 'Account created! Awaiting admin approval.', false, true);
+    } catch (err) {
+      showModalMsg(msg, 'Network error: ' + err.message, true);
+    }
+  });
+
+  function updateAuthUI() {
+    const signInBtn = document.getElementById('signInBtn');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const chip = document.getElementById('userChip');
+    const cmNavItem = document.getElementById('controlManagerNavItem');
+    const isAdminUser = Boolean(currentUser && currentUser.role === 'Admin' && currentUser.permission === 'Allowed');
+
+    if (cmNavItem) {
+      cmNavItem.style.display = isAdminUser ? '' : 'none';
+    }
+
+    if (currentUser) {
+      signInBtn.style.display = 'none';
+      signOutBtn.style.display = 'flex';
+      chip.classList.add('show');
+      document.getElementById('userChipLabel').textContent = currentUser.name + ' · ' + currentUser.role;
+      if (!isAdminUser && document.getElementById('controlManagerView').classList.contains('active')) {
+        loadPage('home1');
       }
-    } catch (error) {
-      console.error('Signup error:', error);
-      debugLog('Signup exception:', error.message);
-      showModalMsg(msgDiv, 'Connection error. Please try again later.', true);
-    } finally {
-      setButtonLoading(btn, false, original);
-    }
-  });
-  
-  // Forgot Password
-  document.getElementById('modalForgotLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('modalLoginUser').value.trim();
-    if (!username) {
-      showModalMsg(document.getElementById('modalLoginMsg'), 'Enter your registered email to receive password reset instructions.', true);
     } else {
-      showModalMsg(document.getElementById('modalLoginMsg'), 
-        `📧 If ${username} exists in our system and is approved, you will receive password reset instructions.`, 
-        false, true);
+      signInBtn.style.display = 'flex';
+      signOutBtn.style.display = 'none';
+      chip.classList.remove('show');
+      loadPage('home1');
     }
-  });
-  
-  // Terms Link
-  document.getElementById('termsModalLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    showModalMsg(document.getElementById('modalSignupMsg'), 
-      '📜 By signing up, you agree to the Terms of Service of Bhagabanpur Gram Panchayat. Your account will be reviewed by admin before activation.', 
-      false, true);
-  });
-  
-  // Password Toggle
-  function setupModalToggle(toggleSel, inputSel) {
-    const toggle = document.querySelector(toggleSel);
-    const inp = document.querySelector(inputSel);
-    if(toggle && inp) {
-      const icon = toggle.querySelector('i');
-      toggle.addEventListener('click', () => {
-        const type = inp.type === 'password' ? 'text' : 'password';
-        inp.type = type;
-        if (icon) {
-          if (type === 'text') {
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-          } else {
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-          }
-        }
+  }
+
+  function signOut() {
+    currentUser = null;
+    allUsers = [];
+    updateAuthUI();
+    sendHeartbeat();
+  }
+
+  // Periodic Session Validation
+  setInterval(async () => {
+    if (!currentUser) return;
+    try {
+      const res = await callGas({ action: 'validateSession', username: currentUser.username });
+      if (!res.success || !res.data || !res.data.isValid) {
+        signOut();
+      } else {
+        currentUser.role = res.data.role || currentUser.role;
+        currentUser.permission = res.data.permission || currentUser.permission;
+        updateAuthUI();
+      }
+    } catch (e) {}
+  }, 30000);
+
+  // Control Manager Operations
+  function showCmAlert(text, isErr) {
+    const el = document.getElementById('cmAlert');
+    document.getElementById('cmAlertText').textContent = text;
+    el.className = 'cm-alert show ' + (isErr ? 'cm-alert-err' : 'cm-alert-ok');
+  }
+  function hideCmAlert() { document.getElementById('cmAlert').className = 'cm-alert'; }
+
+  async function syncControlManager() {
+    await Promise.all([fetchUsers(), pollLiveCount(), fetchLiveSessions()]);
+  }
+
+  async function fetchUsers() {
+    if (!currentUser || currentUser.role !== 'Admin') return;
+    try {
+      const res = await callGas({ action: 'getUsers' });
+      if (!res.success || !res.data) return showCmAlert(res.message || 'Failed to load users.', true);
+      allUsers = Array.isArray(res.data.users) ? res.data.users : [];
+      renderKpisAndBars();
+      renderUsersTable();
+    } catch (err) {
+      showCmAlert('Error loading users: ' + err.message, true);
+    }
+  }
+
+  function renderKpisAndBars() {
+    const total = allUsers.length;
+    const allowed = allUsers.filter(u => u.permission === 'Allowed').length;
+    const denied = total - allowed;
+    const admins = allUsers.filter(u => u.role === 'Admin').length;
+    const office = allUsers.filter(u => u.role === 'Office').length;
+    const regular = allUsers.filter(u => u.role === 'User').length;
+
+    document.getElementById('kpiTotalUsers').textContent = String(total);
+    document.getElementById('kpiRoleBreakdown').textContent = admins + ' Admin · ' + office + ' Office · ' + regular + ' User';
+    document.getElementById('kpiAllowed').textContent = String(allowed);
+    document.getElementById('kpiApprovalPct').textContent = (total ? Math.round((allowed / total) * 100) : 0) + '% active';
+    document.getElementById('kpiDenied').textContent = String(denied);
+
+    const bars = document.getElementById('cmRoleBars');
+    bars.textContent = '';
+    [
+      { label: 'Admin', count: admins },
+      { label: 'Office', count: office },
+      { label: 'User', count: regular }
+    ].forEach(item => {
+      const pct = total ? Math.round((item.count / total) * 100) : 0;
+      const row = document.createElement('div');
+      row.className = 'progress-row';
+      const head = document.createElement('div');
+      head.className = 'progress-head';
+      const s1 = document.createElement('span'); s1.textContent = item.label;
+      const s2 = document.createElement('span'); s2.textContent = item.count + ' (' + pct + '%)';
+      head.appendChild(s1); head.appendChild(s2);
+      const track = document.createElement('div'); track.className = 'progress-track';
+      const fill = document.createElement('div'); fill.className = 'progress-fill'; fill.style.width = pct + '%';
+      track.appendChild(fill);
+      row.appendChild(head); row.appendChild(track);
+      bars.appendChild(row);
+    });
+  }
+
+  function renderUsersTable() {
+    const q = document.getElementById('cmSearch').value.trim().toLowerCase();
+    const rFilter = document.getElementById('cmRoleFilter').value;
+    const pFilter = document.getElementById('cmPermFilter').value;
+
+    const list = allUsers.filter(u => {
+      if (q && !u.username.toLowerCase().includes(q) && !String(u.id).includes(q)) return false;
+      if (rFilter !== 'All' && u.role !== rFilter) return false;
+      if (pFilter !== 'All' && u.permission !== pFilter) return false;
+      return true;
+    });
+
+    const tbody = document.getElementById('cmUsersBody');
+    tbody.textContent = '';
+
+    if (list.length === 0) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 5;
+      td.textContent = 'No matching user accounts found.';
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+
+    list.forEach(u => {
+      const isSelf = currentUser && u.username.toLowerCase() === currentUser.username.toLowerCase();
+      const tr = document.createElement('tr');
+
+      const tdId = document.createElement('td');
+      tdId.textContent = '#' + u.id;
+
+      const tdName = document.createElement('td');
+      tdName.style.fontWeight = '600';
+      tdName.textContent = u.username + (isSelf ? ' (Current Admin)' : '');
+
+      // 3-Step Role Level Slider Switch
+      const tdRole = document.createElement('td');
+      const roleGroup = document.createElement('div');
+      roleGroup.className = 'role-slider-group';
+      const thumb = document.createElement('div');
+      thumb.className = 'role-slider-thumb';
+      const roles = ['User', 'Office', 'Admin'];
+      const roleIdx = Math.max(0, roles.indexOf(u.role));
+      thumb.style.transform = 'translateX(' + (roleIdx * 72) + 'px)';
+      roleGroup.appendChild(thumb);
+
+      roles.forEach((roleName) => {
+        const rb = document.createElement('button');
+        rb.type = 'button';
+        rb.className = 'role-slider-btn' + (u.role === roleName ? ' active' : '');
+        rb.textContent = roleName;
+        rb.disabled = Boolean(isSelf);
+        rb.onclick = () => updateMember(u.id, u.username, { role: roleName });
+        roleGroup.appendChild(rb);
       });
+      tdRole.appendChild(roleGroup);
+
+      // Permission Toggle Slider Switch (Allowed <-> Denied)
+      const tdPerm = document.createElement('td');
+      const wrap = document.createElement('div');
+      wrap.className = 'slider-switch-wrap';
+
+      const lbl = document.createElement('label');
+      lbl.className = 'switch-slider';
+      const chk = document.createElement('input');
+      chk.type = 'checkbox';
+      chk.checked = u.permission === 'Allowed';
+      chk.disabled = Boolean(isSelf);
+      chk.setAttribute('aria-label', 'Toggle permission for ' + u.username);
+      chk.onchange = () => updateMember(u.id, u.username, { permission: chk.checked ? 'Allowed' : 'Denied' });
+
+      const track = document.createElement('span');
+      track.className = 'slider-track';
+      lbl.appendChild(chk);
+      lbl.appendChild(track);
+
+      const statusText = document.createElement('span');
+      statusText.className = 'slider-status-text ' + (u.permission === 'Allowed' ? 'status-allowed' : 'status-denied');
+      statusText.textContent = u.permission;
+
+      wrap.appendChild(lbl);
+      wrap.appendChild(statusText);
+      tdPerm.appendChild(wrap);
+
+      // Delete Action
+      const tdAct = document.createElement('td');
+      tdAct.style.textAlign = 'right';
+      const delBtn = document.createElement('button');
+      delBtn.className = 'del-row-btn';
+      delBtn.disabled = Boolean(isSelf);
+      delBtn.textContent = 'Delete';
+      delBtn.onclick = () => openDeleteModal(u);
+      tdAct.appendChild(delBtn);
+
+      tr.appendChild(tdId);
+      tr.appendChild(tdName);
+      tr.appendChild(tdRole);
+      tr.appendChild(tdPerm);
+      tr.appendChild(tdAct);
+      tbody.appendChild(tr);
+    });
+  }
+
+  async function updateMember(userId, username, updates) {
+    try {
+      const payload = { action: 'updatePermission', userId: String(userId) };
+      if (updates.permission) payload.permission = updates.permission;
+      if (updates.role) payload.role = updates.role;
+      const res = await callGas(payload);
+      if (!res.success) return showCmAlert(res.message || 'Update failed.', true);
+      showCmAlert('Updated ' + username + ' successfully.', false);
+      await fetchUsers();
+    } catch (err) {
+      showCmAlert('Update error: ' + err.message, true);
     }
   }
-  setupModalToggle('.toggle-login-modal', '#modalLoginPass');
-  setupModalToggle('.toggle-signup-modal', '#modalSignupPass');
-  
-  // Load remembered user
-  const rememberedUsername = localStorage.getItem('gp_remember_username');
-  if (rememberedUsername) {
-    document.getElementById('modalLoginUser').value = rememberedUsername;
-    document.getElementById('modalRemember').checked = true;
+
+  function renderTrafficChart() {
+    const svg = document.getElementById('cmTrafficSvg');
+    if (!svg) return;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    if (trafficSamples.length === 0) return;
+
+    const ns = 'http://www.w3.org/2000/svg';
+    const w = 640, h = 190, pl = 34, pr = 16, pt = 14, pb = 26;
+    const pw = w - pl - pr, ph = h - pt - pb;
+    const maxY = Math.max(4, ...trafficSamples.map(s => s.total));
+
+    [0, 0.5, 1].forEach(step => {
+      const y = pt + ph * (1 - step);
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', pl); line.setAttribute('y1', y);
+      line.setAttribute('x2', w - pr); line.setAttribute('y2', y);
+      line.setAttribute('stroke', '#E2E8F0');
+      svg.appendChild(line);
+
+      const txt = document.createElementNS(ns, 'text');
+      txt.setAttribute('x', pl - 8); txt.setAttribute('y', y + 4);
+      txt.setAttribute('text-anchor', 'end'); txt.setAttribute('fill', '#64748B'); txt.setAttribute('font-size', '10');
+      txt.textContent = String(Math.round(maxY * step));
+      svg.appendChild(txt);
+    });
+
+    const coords = trafficSamples.map((s, i) => ({
+      x: trafficSamples.length === 1 ? pl + pw / 2 : pl + (i / (trafficSamples.length - 1)) * pw,
+      y: pt + ph - (s.total / maxY) * ph,
+      label: s.label
+    }));
+
+    if (coords.length > 1) {
+      const poly = document.createElementNS(ns, 'polyline');
+      poly.setAttribute('fill', 'none'); poly.setAttribute('stroke', '#0B2B40'); poly.setAttribute('stroke-width', '2.5');
+      poly.setAttribute('points', coords.map(c => c.x + ',' + c.y).join(' '));
+      svg.appendChild(poly);
+    }
+
+    coords.forEach((c, i) => {
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('cx', c.x); dot.setAttribute('cy', c.y); dot.setAttribute('r', '3.5'); dot.setAttribute('fill', '#1E5A6B');
+      svg.appendChild(dot);
+      if (i === 0 || i === coords.length - 1) {
+        const lbl = document.createElementNS(ns, 'text');
+        lbl.setAttribute('x', c.x); lbl.setAttribute('y', h - 6); lbl.setAttribute('text-anchor', 'middle');
+        lbl.setAttribute('fill', '#64748B'); lbl.setAttribute('font-size', '10');
+        lbl.textContent = c.label;
+        svg.appendChild(lbl);
+      }
+    });
   }
-  
-  // Check if already logged in
-  const session = localStorage.getItem('gp_user_session') || sessionStorage.getItem('gp_user_session');
-  if (session && window.location.pathname.includes('index1')) {
-    window.location.href = 'index2.htm';
+
+  async function fetchLiveSessions() {
+    if (!currentUser || currentUser.role !== 'Admin') return;
+    try {
+      const res = await callGas({ action: 'getActiveUsersList' });
+      if (!res.success || !res.data) return;
+      const sessions = Array.isArray(res.data.sessions) ? res.data.sessions : [];
+      const tbody = document.getElementById('cmLiveBody');
+      tbody.textContent = '';
+
+      if (sessions.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.textContent = 'No active sessions within last 60 seconds.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      sessions.forEach(s => {
+        const tr = document.createElement('tr');
+        [s.username, s.role, String(s.sessionId).slice(0, 14), s.firstSeen || '—', s.lastActive].forEach(val => {
+          const td = document.createElement('td');
+          td.textContent = val;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    } catch (e) {}
   }
-  
-  // Display system status
-  console.log('✅ Bhagabanpur Gram Panchayat Portal - Enhanced Security Active');
-  console.log('🔐 Permission System: ONLY users with "Allowed" permission can login');
-  console.log('📝 New users: Created with "Denied" permission - Requires admin approval');
-  console.log('🔧 Google Apps Script URL:', GOOGLE_SCRIPT_URL);
-  debugLog('System initialized - Enhanced permission checking active');
+
+  async function cleanupInactive() {
+    try {
+      const res = await callGas({ action: 'cleanupInactive' });
+      if (res.success) {
+        showCmAlert('Cleaned stale sessions. Active remaining: ' + (res.data ? res.data.removedCount : 0), false);
+        syncControlManager();
+      }
+    } catch (err) { showCmAlert('Cleanup error: ' + err.message, true); }
+  }
+
+  function openAddUserModal() { document.getElementById('addUserModal').classList.add('active'); }
+  function closeAddUserModal() { document.getElementById('addUserModal').classList.remove('active'); }
+
+  document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('addName').value.trim();
+    const email = document.getElementById('addEmail').value.trim().toLowerCase();
+    const password = document.getElementById('addPassword').value;
+    const role = document.getElementById('addRole').value;
+    const permission = document.getElementById('addPermission').value;
+    const msg = document.getElementById('addUserMsg');
+
+    try {
+      const res = await callGas({ action: 'addUser', name, email, password, role, permission });
+      if (!res.success) return showModalMsg(msg, res.message || 'Could not add user.', true);
+      document.getElementById('addUserForm').reset();
+      closeAddUserModal();
+      showCmAlert('Added member: ' + email, false);
+      await fetchUsers();
+    } catch (err) { showModalMsg(msg, 'Error: ' + err.message, true); }
+  });
+
+  function openDeleteModal(user) {
+    deleteTarget = user;
+    document.getElementById('deleteModalMsg').textContent =
+      'Permanently delete ' + user.username + ' (Row #' + user.id + ', Role: ' + user.role + ')? This cannot be undone.';
+    document.getElementById('deleteModal').classList.add('active');
+  }
+  function closeDeleteModal() {
+    deleteTarget = null;
+    document.getElementById('deleteModal').classList.remove('active');
+  }
+  async function confirmDeleteUser() {
+    if (!deleteTarget) return;
+    try {
+      const res = await callGas({ action: 'deleteUser', userId: String(deleteTarget.id) });
+      closeDeleteModal();
+      if (!res.success) return showCmAlert(res.message || 'Delete failed.', true);
+      showCmAlert(res.message || 'User deleted.', false);
+      await fetchUsers();
+    } catch (err) {
+      closeDeleteModal();
+      showCmAlert('Delete error: ' + err.message, true);
+    }
+  }
+
+  function exportUsersCsv() {
+    const rows = [['RowID', 'Username', 'Role', 'Permission']].concat(
+      allUsers.map(u => [String(u.id), u.username, u.role, u.permission])
+    );
+    const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'bhagabanpur-gp-users.csv'; a.click();
+    URL.revokeObjectURL(url);
+  }
 </script>
 </body>
 </html>
