@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gram Sansad Meeting Scheduler — Bhagabanpur Gram Panchayat</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    :root {
+      --ink: #000000;
+      --paper: #ffffff;
+      --muted-bg: #f4f4f5;
+      --border: #000000;
+      --subtle-border: #d4d4d8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Times New Roman", Times, Georgia, serif;
+      background: #f5f5f5;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .ui-sans {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Top Control Bar */
+    .topbar {
+      background: #ffffff;
+      border-bottom: 2px solid #000000;
+      padding: 14px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border: 1.5px solid #000000;
+      background: #ffffff;
+      color: #000000;
+      cursor: pointer;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #efefef;
+    }
+
+    .btn-black {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .btn-black:hover {
+      background: #222222;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 20px auto;
+      padding: 0 16px 40px;
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar Controls */
+    .panel {
+      background: #ffffff;
+      border: 1.5px solid #000000;
+      padding: 16px;
+    }
+
+    .panel-section + .panel-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #d4d4d8;
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .field input[type="text"],
+    .field input[type="date"],
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 7px 8px;
+      border: 1px solid #000000;
+      background: #ffffff;
+      color: #000000;
+      font-size: 12.5px;
+      border-radius: 3px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    .checkbox-row input {
+      width: 15px;
+      height: 15px;
+      accent-color: #000000;
+    }
+
+    .holiday-list {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #d4d4d8;
+    }
+
+    .holiday-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 8px;
+      font-size: 12px;
+      border-bottom: 1px solid #e4e4e7;
+    }
+
+    .holiday-list li:last-child {
+      border-bottom: none;
+    }
+
+    .holiday-remove {
+      background: none;
+      border: 1px solid #000000;
+      color: #000000;
+      font-size: 11px;
+      padding: 1px 6px;
+      cursor: pointer;
+    }
+
+    .status-note {
+      margin-top: 8px;
+      padding: 8px;
+      border: 1px solid #000000;
+      background: #f4f4f5;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Official Sheet */
+    .sheet {
+      background: #ffffff;
+      border: 1.5px solid #000000;
+      padding: 28px 30px;
+      color: #000000;
+    }
+
+    .sheet-header {
+      text-align: center;
+    }
+
+    .sheet-header h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sheet-header p {
+      margin: 3px 0 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .double-rule {
+      margin: 10px 0 12px;
+      border-top: 2px solid #000000;
+      border-bottom: 1px solid #000000;
+      height: 4px;
+    }
+
+    .memo-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .schedule-title-wrap {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .schedule-title {
+      display: inline-block;
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 2px;
+    }
+
+    .period-subtitle {
+      margin: 5px 0 0;
+      font-size: 12px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table.schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      color: #000000;
+    }
+
+    table.schedule-table th,
+    table.schedule-table td {
+      border: 1px solid #000000;
+      padding: 5px 6px;
+      vertical-align: middle;
+    }
+
+    table.schedule-table th {
+      background: #e5e5e5;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 11.5px;
+    }
+
+    table.schedule-table td.center {
+      text-align: center;
+      font-weight: 700;
+    }
+
+    table.schedule-table input.cell-input,
+    table.schedule-table select.cell-select {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #000000;
+      font-family: inherit;
+      font-size: 12.5px;
+      padding: 3px 4px;
+    }
+
+    table.schedule-table input.cell-input:hover,
+    table.schedule-table select.cell-select:hover,
+    table.schedule-table input.cell-input:focus,
+    table.schedule-table select.cell-select:focus {
+      border-color: #000000;
+      background: #fafafa;
+      outline: none;
+    }
+
+    .row-del-btn {
+      background: #ffffff;
+      border: 1px solid #000000;
+      color: #000000;
+      font-size: 11px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    .sheet-footer {
+      margin-top: 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .signatory-box {
+      width: 240px;
+      text-align: center;
+      border-top: 1.5px solid #000000;
+      padding-top: 5px;
+      font-size: 12.5px;
+      margin-left: auto;
+    }
+
+    .signatory-box strong {
+      display: block;
+    }
+
+    /* Print Styles (Pure Black & White A4) */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+
+      body {
+        background: #ffffff !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .container {
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: none;
+      }
+
+      .sheet {
+        border: none;
+        padding: 0;
+      }
+
+      table.schedule-table th {
+        background: #e5e5e5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      table.schedule-table input.cell-input,
+      table.schedule-table select.cell-select {
+        border: none !important;
+        appearance: none;
+        -webkit-appearance: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar ui-sans no-print">
+    <h1>Gram Sansad Meeting Scheduler — Bhagabanpur Gram Panchayat</h1>
+    <div class="topbar-actions">
+      <button type="button" class="btn" onclick="addSansadRow()">+ Add Sansad</button>
+      <button type="button" class="btn" onclick="restoreDefaultData()">Restore Sample Data</button>
+      <button type="button" class="btn" onclick="window.print()">Print Sheet</button>
+      <button type="button" class="btn btn-black" onclick="downloadPDF()">Download PDF</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Left Sidebar -->
+    <aside class="panel ui-sans no-print">
+      <div class="panel-section">
+        <h2>Programme Dates &amp; Time</h2>
+        <div class="field-row">
+          <div class="field">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" value="2025-06-09" onchange="updatePeriodInfo()" />
+          </div>
+          <div class="field">
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" value="2025-06-17" onchange="updatePeriodInfo()" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="timeMode">Meeting Time Mode</label>
+          <select id="timeMode" onchange="toggleFixedTimeSelect()">
+            <option value="random">Random Specific Time (1 PM / 1.30 PM / 2 PM / 2.30 PM / 3 PM)</option>
+            <option value="fixed">Single Specific Time for All</option>
+          </select>
+        </div>
+
+        <div class="field" id="fixedTimeWrap" style="display: none;">
+          <label for="fixedTime">Select Specific Time</label>
+          <select id="fixedTime">
+            <option value="1 PM">1 PM</option>
+            <option value="1.30 PM">1.30 PM</option>
+            <option value="2 PM" selected>2 PM</option>
+            <option value="2.30 PM">2.30 PM</option>
+            <option value="3 PM">3 PM</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="distributionMode">Date Distribution</label>
+          <select id="distributionMode">
+            <option value="balanced">Balanced Random Across Working Days</option>
+            <option value="pure">Pure Random Across Working Days</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-black" style="width: 100%;" onclick="autoGenerateSchedule()">
+          Auto-Generate Random Schedule
+        </button>
+
+        <div id="workingDaysStatus" class="status-note"></div>
+      </div>
+
+      <div class="panel-section">
+        <h2>Exclude Holidays</h2>
+        <label class="checkbox-row">
+          <input type="checkbox" id="excludeSunday" checked onchange="updatePeriodInfo()" />
+          <span>Exclude Sundays</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="excludeSaturday" checked onchange="updatePeriodInfo()" />
+          <span>Exclude Saturdays</span>
+        </label>
+
+        <div class="field" style="margin-top: 10px;">
+          <label for="holidayDate">Add Custom Holiday Date</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="date" id="holidayDate" />
+            <button type="button" class="btn btn-black" onclick="addHoliday()">Add</button>
+          </div>
+        </div>
+        <div class="field">
+          <input type="text" id="holidayName" placeholder="Holiday name (optional)" />
+        </div>
+
+        <ul id="holidayList" class="holiday-list"></ul>
+      </div>
+
+      <div class="panel-section">
+        <h2>Office &amp; Memo Details</h2>
+        <div class="field">
+          <label for="officeName">Office Name</label>
+          <input type="text" id="officeName" value="Bhagabanpur Gram Panchayat" oninput="syncHeader()" />
+        </div>
+        <div class="field">
+          <label for="officeAddress">Location / Block / District</label>
+          <input type="text" id="officeAddress" value="Arbara, Chanchal, Malda" oninput="syncHeader()" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="memoNo">Memo No.</label>
+            <input type="text" id="memoNo" value="_____ / BGP / 2025" oninput="syncHeader()" />
+          </div>
+          <div class="field">
+            <label for="issueDate">Issue Date</label>
+            <input type="text" id="issueDate" value="02/06/2025" oninput="syncHeader()" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="signatory">Signatory</label>
+          <input type="text" id="signatory" value="Pradhan, Bhagabanpur Gram Panchayat" oninput="syncHeader()" />
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Official Printable Sheet -->
+    <main class="sheet" id="printableSheet">
+      <div class="sheet-header">
+        <h2 id="dispOfficeTitle">OFFICE OF THE BHAGABANPUR GRAM PANCHAYAT</h2>
+        <p id="dispOfficeAddress">Arbara, Chanchal, Malda</p>
+      </div>
+
+      <div class="double-rule"></div>
+
+      <div class="memo-row">
+        <span><strong>Memo No.:</strong> <span id="dispMemo">_____ / BGP / 2025</span></span>
+        <span><strong>Date:</strong> <span id="dispIssueDate">02/06/2025</span></span>
+      </div>
+
+      <div class="schedule-title-wrap">
+        <h3 class="schedule-title">GRAM SANSAD MEETING SCHEDULE</h3>
+        <p class="period-subtitle" id="dispPeriod"></p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th style="width: 54px;">SL NO</th>
+              <th style="width: 135px;">NAME GRAM SANSAD &amp; No</th>
+              <th style="width: 210px;">Gram Panchayat Seat</th>
+              <th>Meeting Place</th>
+              <th style="width: 105px;">Date</th>
+              <th style="width: 90px;">Time</th>
+              <th class="no-print" style="width: 48px;">Del</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+
+      <div class="sheet-footer">
+        <div class="signatory-box">
+          <strong id="dispSignatory">Pradhan, Bhagabanpur Gram Panchayat</strong>
+          <span id="dispSignatoryAddress">Arbara, Chanchal, Malda</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const TIME_SLOTS = ["1 PM", "1.30 PM", "2 PM", "2.30 PM", "3 PM"];
+
+    const DEFAULT_ROWS = [
+      { slNo: 1, sansadName: "Bhagabanpur/I", gpSeat: "BHAGABANPUR/I-1, BHAGABANPUR/I-2", meetingPlace: "Nimgachhi SS", date: "09/06/2025", time: "2 PM" },
+      { slNo: 2, sansadName: "Bhagabanpur/II", gpSeat: "BHAGABANPUR/II-3", meetingPlace: "Jasua Pry School", date: "09/06/2025", time: "2 PM" },
+      { slNo: 3, sansadName: "Bhagabanpur/III", gpSeat: "BHAGABANPUR/III-4", meetingPlace: "Bhagabanpur Pry School", date: "09/06/2025", time: "2 PM" },
+      { slNo: 4, sansadName: "Bhagabanpur/IV", gpSeat: "BHAGABANPUR/IV-5", meetingPlace: "Nayanpur Pry School", date: "10/06/2025", time: "2 PM" },
+      { slNo: 5, sansadName: "Bhagabanpur/V", gpSeat: "BHAGABANPUR/V-6", meetingPlace: "Ramdebpur Pry School", date: "10/06/2025", time: "2 PM" },
+      { slNo: 6, sansadName: "Bhagabanpur/VI", gpSeat: "BHAGABANPUR/VI-7", meetingPlace: "Jotchandi Bullet Club & Library", date: "10/06/2025", time: "2 PM" },
+      { slNo: 7, sansadName: "Bhagabanpur/VII", gpSeat: "BHAGABANPUR/VII-8, BHAGABANPUR/VII-9", meetingPlace: "D. Kaligunj Pry School", date: "11/06/2025", time: "2 PM" },
+      { slNo: 8, sansadName: "Bhagabanpur/VIII", gpSeat: "BHAGABANPUR/VIII-10", meetingPlace: "Chandipur Pry School", date: "11/06/2025", time: "2 PM" },
+      { slNo: 9, sansadName: "Bhagabanpur/IX", gpSeat: "BHAGABANPUR/IX-11", meetingPlace: "Bheba Pry School(E)", date: "11/06/2025", time: "2 PM" },
+      { slNo: 10, sansadName: "Bhagabanpur/X", gpSeat: "BHAGABANPUR/X-12", meetingPlace: "Bheba Pry School(W)", date: "12/06/2025", time: "2 PM" },
+      { slNo: 11, sansadName: "Bhagabanpur/XI", gpSeat: "BHAGABANPUR/XI-13", meetingPlace: "Serbabar MSK", date: "12/06/2025", time: "2 PM" },
+      { slNo: 12, sansadName: "Bhagabanpur/XII", gpSeat: "BHAGABANPUR/XII-14", meetingPlace: "Serbabar Pry School", date: "12/06/2025", time: "2 PM" },
+      { slNo: 13, sansadName: "Bhagabanpur/XIII", gpSeat: "BHAGABANPUR/XIII-15", meetingPlace: "Charalu Pry School", date: "13/06/2025", time: "2 PM" },
+      { slNo: 14, sansadName: "Bhagabanpur/XIV", gpSeat: "BHAGABANPUR/XIV-16", meetingPlace: "Purba Nichitpur School(E)", date: "13/06/2025", time: "2 PM" },
+      { slNo: 15, sansadName: "Bhagabanpur/XV", gpSeat: "BHAGABANPUR/XV-17", meetingPlace: "Purba Nichitpur School(W)", date: "13/06/2025", time: "2 PM" },
+      { slNo: 16, sansadName: "Bhagabanpur/XVI", gpSeat: "BHAGABANPUR/XVI-18", meetingPlace: "Bagunj Pry School", date: "16/06/2025", time: "2 PM" },
+      { slNo: 17, sansadName: "Bhagabanpur/XVII", gpSeat: "BHAGABANPUR/XVII-19", meetingPlace: "Arbara High School", date: "16/06/2025", time: "2 PM" },
+      { slNo: 18, sansadName: "Bhagabanpur/XVIII", gpSeat: "BHAGABANPUR/XVIII-20", meetingPlace: "Arbara High School", date: "16/06/2025", time: "2 PM" },
+      { slNo: 19, sansadName: "Bhagabanpur/XIX", gpSeat: "BHAGABANPUR/XIX-21", meetingPlace: "Arbara High School", date: "17/06/2025", time: "2 PM" },
+      { slNo: 20, sansadName: "Bhagabanpur/XX", gpSeat: "BHAGABANPUR/XX-22", meetingPlace: "Arbara High School", date: "17/06/2025", time: "2 PM" }
+    ];
+
+    let rows = JSON.parse(JSON.stringify(DEFAULT_ROWS));
+    let holidays = [
+      { date: "2025-06-07", name: "Id-Ud-Zoha (Bakrid)" },
+      { date: "2025-06-27", name: "Rath Yatra" },
+      { date: "2025-08-15", name: "Independence Day" },
+      { date: "2025-10-02", name: "Gandhi Jayanti" }
+    ];
+
+    function parseIsoLocal(iso) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec((iso || "").trim());
+      if (!m) return null;
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 12, 0, 0, 0);
+    }
+
+    function formatIso(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function isoToDDMMYYYY(iso) {
+      const d = parseIsoLocal(iso);
+      if (!d) return "";
+      const day = String(d.getDate()).padStart(2, "0");
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      return `${day}/${m}/${d.getFullYear()}`;
+    }
+
+    function getWorkingDates() {
+      const startIso = document.getElementById("startDate").value;
+      const endIso = document.getElementById("endDate").value;
+      const exclSun = document.getElementById("excludeSunday").checked;
+      const exclSat = document.getElementById("excludeSaturday").checked;
+      const start = parseIsoLocal(startIso);
+      const end = parseIsoLocal(endIso);
+      if (!start || !end || start > end) return [];
+
+      const holidaySet = new Set(holidays.map((h) => h.date));
+      const working = [];
+      const cur = new Date(start.getTime());
+      let guard = 0;
+
+      while (cur <= end && guard < 366) {
+        guard++;
+        const iso = formatIso(cur);
+        const dow = cur.getDay();
+        const isHoliday =
+          holidaySet.has(iso) ||
+          (exclSun && dow === 0) ||
+          (exclSat && dow === 6);
+
+        if (!isHoliday) {
+          working.push(isoToDDMMYYYY(iso));
+        }
+        cur.setDate(cur.getDate() + 1);
+      }
+      return working;
+    }
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function toggleFixedTimeSelect() {
+      const mode = document.getElementById("timeMode").value;
+      document.getElementById("fixedTimeWrap").style.display =
+        mode === "fixed" ? "block" : "none";
+    }
+
+    function pickTime() {
+      const mode = document.getElementById("timeMode").value;
+      if (mode === "fixed") {
+        return document.getElementById("fixedTime").value;
+      }
+      return TIME_SLOTS[Math.floor(Math.random() * TIME_SLOTS.length)];
+    }
+
+    function autoGenerateSchedule() {
+      const workingDates = getWorkingDates();
+      if (workingDates.length === 0) {
+        updatePeriodInfo();
+        return;
+      }
+      const distMode = document.getElementById("distributionMode").value;
+
+      if (distMode === "balanced") {
+        const shuffledDays = shuffle(workingDates);
+        const indices = shuffle(rows.map((_, i) => i));
+        indices.forEach((rowIdx, pos) => {
+          rows[rowIdx].date = shuffledDays[pos % shuffledDays.length];
+          rows[rowIdx].time = pickTime();
+        });
+      } else {
+        rows.forEach((r) => {
+          r.date = workingDates[Math.floor(Math.random() * workingDates.length)];
+          r.time = pickTime();
+        });
+      }
+      renderTable();
+    }
+
+    function addHoliday() {
+      const dateVal = document.getElementById("holidayDate").value;
+      const nameVal = document.getElementById("holidayName").value.trim() || "Holiday";
+      if (!dateVal) return;
+      holidays = holidays.filter((h) => h.date !== dateVal);
+      holidays.push({ date: dateVal, name: nameVal });
+      holidays.sort((a, b) => a.date.localeCompare(b.date));
+      document.getElementById("holidayDate").value = "";
+      document.getElementById("holidayName").value = "";
+      renderHolidays();
+      updatePeriodInfo();
+    }
+
+    function removeHoliday(iso) {
+      holidays = holidays.filter((h) => h.date !== iso);
+      renderHolidays();
+      updatePeriodInfo();
+    }
+
+    function renderHolidays() {
+      const list = document.getElementById("holidayList");
+      list.innerHTML = "";
+      if (holidays.length === 0) {
+        list.innerHTML = `<li style="color:#555;">No custom holidays added.</li>`;
+        return;
+      }
+      holidays.forEach((h) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span><strong>${isoToDDMMYYYY(h.date)}</strong> — ${escapeHtml(h.name)}</span>
+          <button type="button" class="holiday-remove" onclick="removeHoliday('${h.date}')">Remove</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function updatePeriodInfo() {
+      const startIso = document.getElementById("startDate").value;
+      const endIso = document.getElementById("endDate").value;
+      const working = getWorkingDates();
+      const status = document.getElementById("workingDaysStatus");
+      const periodDisp = document.getElementById("dispPeriod");
+
+      if (!startIso || !endIso || startIso > endIso) {
+        status.textContent = "Invalid range: End Date must be after Start Date.";
+        periodDisp.textContent = "";
+      } else if (working.length === 0) {
+        status.textContent = "0 working days in selected period (all dates excluded).";
+        periodDisp.textContent = `Programme Period: ${isoToDDMMYYYY(startIso)} to ${isoToDDMMYYYY(endIso)}`;
+      } else {
+        status.textContent = `${working.length} working day(s) available (Holidays excluded).`;
+        periodDisp.textContent = `Programme Period: ${isoToDDMMYYYY(startIso)} to ${isoToDDMMYYYY(endIso)} (Excluding Holidays)`;
+      }
+    }
+
+    function syncHeader() {
+      const officeName = document.getElementById("officeName").value || "Bhagabanpur Gram Panchayat";
+      const officeAddress = document.getElementById("officeAddress").value || "Arbara, Chanchal, Malda";
+      const memoNo = document.getElementById("memoNo").value;
+      const issueDate = document.getElementById("issueDate").value;
+      const signatory = document.getElementById("signatory").value;
+
+      document.getElementById("dispOfficeTitle").textContent = `OFFICE OF THE ${officeName.toUpperCase()}`;
+      document.getElementById("dispOfficeAddress").textContent = officeAddress;
+      document.getElementById("dispMemo").textContent = memoNo;
+      document.getElementById("dispIssueDate").textContent = issueDate;
+      document.getElementById("dispSignatory").textContent = signatory;
+      document.getElementById("dispSignatoryAddress").textContent = officeAddress;
+    }
+
+    function addSansadRow() {
+      const nextSl = rows.length ? Math.max(...rows.map((r) => Number(r.slNo) || 0)) + 1 : 1;
+      const working = getWorkingDates();
+      rows.push({
+        slNo: nextSl,
+        sansadName: `Bhagabanpur/${nextSl}`,
+        gpSeat: `BHAGABANPUR/${nextSl}`,
+        meetingPlace: "New Meeting Venue",
+        date: working[0] || "09/06/2025",
+        time: "2 PM"
+      });
+      renderTable();
+    }
+
+    function deleteRow(index) {
+      rows.splice(index, 1);
+      renderTable();
+    }
+
+    function restoreDefaultData() {
+      rows = JSON.parse(JSON.stringify(DEFAULT_ROWS));
+      renderTable();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("scheduleBody");
+      tbody.innerHTML = "";
+
+      rows.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        const timeOptions = TIME_SLOTS.map(
+          (slot) => `<option value="${slot}" ${row.time === slot ? "selected" : ""}>${slot}</option>`
+        ).join("");
+
+        tr.innerHTML = `
+          <td class="center">${row.slNo}</td>
+          <td><input class="cell-input" type="text" value="${escapeHtml(row.sansadName)}" oninput="rows[${idx}].sansadName = this.value" /></td>
+          <td><input class="cell-input" type="text" value="${escapeHtml(row.gpSeat)}" oninput="rows[${idx}].gpSeat = this.value" /></td>
+          <td><input class="cell-input" type="text" value="${escapeHtml(row.meetingPlace)}" oninput="rows[${idx}].meetingPlace = this.value" /></td>
+          <td><input class="cell-input" type="text" style="text-align:center; font-weight:700;" value="${escapeHtml(row.date)}" oninput="rows[${idx}].date = this.value" /></td>
+          <td>
+            <select class="cell-select" style="text-align:center;" onchange="rows[${idx}].time = this.value">
+              ${!TIME_SLOTS.includes(row.time) ? `<option value="${escapeHtml(row.time)}" selected>${escapeHtml(row.time)}</option>` : ""}
+              ${timeOptions}
+            </select>
+          </td>
+          <td class="no-print" style="text-align:center;">
+            <button type="button" class="row-del-btn" onclick="deleteRow(${idx})">X</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function downloadPDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        window.print();
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const marginX = 14;
+      let y = 16;
+
+      const officeName = document.getElementById("officeName").value || "Bhagabanpur Gram Panchayat";
+      const officeAddress = document.getElementById("officeAddress").value || "Arbara, Chanchal, Malda";
+      const memoNo = document.getElementById("memoNo").value;
+      const issueDate = document.getElementById("issueDate").value;
+      const signatory = document.getElementById("signatory").value;
+      const startDisp = isoToDDMMYYYY(document.getElementById("startDate").value);
+      const endDisp = isoToDDMMYYYY(document.getElementById("endDate").value);
+
+      doc.setTextColor(0, 0, 0);
+      doc.setDrawColor(0, 0, 0);
+
+      doc.setFont("times", "bold");
+      doc.setFontSize(15);
+      doc.text(`OFFICE OF THE ${officeName.toUpperCase()}`, pageWidth / 2, y, { align: "center" });
+      y += 5.5;
+
+      doc.setFontSize(10.5);
+      doc.text(officeAddress, pageWidth / 2, y, { align: "center" });
+      y += 4;
+
+      doc.setLineWidth(0.6);
+      doc.line(marginX, y, pageWidth - marginX, y);
+      doc.setLineWidth(0.2);
+      doc.line(marginX, y + 1, pageWidth - marginX, y + 1);
+      y += 6.5;
+
+      doc.setFont("times", "normal");
+      doc.setFontSize(10);
+      doc.text(`Memo No.: ${memoNo}`, marginX, y);
+      doc.text(`Date: ${issueDate}`, pageWidth - marginX, y, { align: "right" });
+      y += 8;
+
+      doc.setFont("times", "bold");
+      doc.setFontSize(12);
+      const title = "GRAM SANSAD MEETING SCHEDULE";
+      doc.text(title, pageWidth / 2, y, { align: "center" });
+      const tw = doc.getTextWidth(title);
+      doc.setLineWidth(0.35);
+      doc.line(pageWidth / 2 - tw / 2, y + 1, pageWidth / 2 + tw / 2, y + 1);
+      y += 5.5;
+
+      if (startDisp && endDisp) {
+        doc.setFont("times", "normal");
+        doc.setFontSize(9.5);
+        doc.text(`Programme Period: ${startDisp} to ${endDisp} (Excluding Holidays)`, pageWidth / 2, y, { align: "center" });
+        y += 5;
+      }
+
+      doc.autoTable({
+        startY: y,
+        margin: { left: marginX, right: marginX, bottom: 24 },
+        head: [["SL NO", "NAME GRAM SANSAD & No", "Gram Panchayat Seat", "Meeting Place", "Date", "Time"]],
+        body: rows.map((r) => [String(r.slNo), r.sansadName, r.gpSeat, r.meetingPlace, r.date, r.time]),
+        theme: "grid",
+        styles: {
+          font: "times",
+          fontSize: 9,
+          textColor: [0, 0, 0],
+          fillColor: [255, 255, 255],
+          lineColor: [0, 0, 0],
+          lineWidth: 0.25,
+          cellPadding: 2.1,
+          valign: "middle"
+        },
+        headStyles: {
+          font: "times",
+          fontStyle: "bold",
+          fontSize: 9,
+          textColor: [0, 0, 0],
+          fillColor: [232, 232, 232],
+          lineColor: [0, 0, 0],
+          lineWidth: 0.35,
+          halign: "center"
+        },
+        columnStyles: {
+          0: { cellWidth: 13, halign: "center", fontStyle: "bold" },
+          1: { cellWidth: 30, halign: "left" },
+          2: { cellWidth: 44, halign: "left", fontSize: 8.3 },
+          3: { cellWidth: 48, halign: "left" },
+          4: { cellWidth: 24, halign: "center" },
+          5: { cellWidth: 23, halign: "center" }
+        }
+      });
+
+      const finalY = doc.lastAutoTable.finalY || 220;
+      let sigY = finalY + 18;
+      if (sigY > doc.internal.pageSize.getHeight() - 16) {
+        doc.addPage();
+        sigY = 28;
+      }
+
+      const sigRightX = pageWidth - marginX - 6;
+      doc.setLineWidth(0.3);
+      doc.line(sigRightX - 58, sigY - 5, sigRightX, sigY - 5);
+      doc.setFont("times", "bold");
+      doc.setFontSize(10);
+      doc.text(signatory, sigRightX - 29, sigY, { align: "center" });
+      doc.setFont("times", "normal");
+      doc.setFontSize(9);
+      doc.text(officeAddress, sigRightX - 29, sigY + 4.5, { align: "center" });
+
+      doc.save("bhagabanpur_gram_sansad_schedule.pdf");
+    }
+
+    // Initialize
+    syncHeader();
+    renderHolidays();
+    updatePeriodInfo();
+    renderTable();
+  </script>
+</body>
+</html>
